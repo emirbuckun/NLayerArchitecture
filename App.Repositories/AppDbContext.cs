@@ -1,4 +1,5 @@
 using System.Reflection;
+using App.Repositories.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Repositories {

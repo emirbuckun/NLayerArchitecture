@@ -1,12 +1,11 @@
-using App.Repositories;
-using Microsoft.EntityFrameworkCore;
+using App.Repositories.Extensions;
+using App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("AppDatabase"));
+builder.Services.AddRepositories().AddServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
