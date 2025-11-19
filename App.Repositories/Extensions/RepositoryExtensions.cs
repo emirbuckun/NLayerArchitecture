@@ -8,6 +8,7 @@ namespace App.Repositories.Extensions {
             services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDatabase"));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }
