@@ -1,11 +1,13 @@
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace App.Services {
     public class ServiceResult<T> {
-#nullable enable
         public T? Data { get; set; }
         public List<string>? ErrorMessage { get; set; }
+        [JsonIgnore]
         public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
+        [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
 
         public static ServiceResult<T> Success(HttpStatusCode statusCode = HttpStatusCode.OK) {
@@ -37,9 +39,10 @@ namespace App.Services {
     }
 
     public class ServiceResult {
-#nullable enable
         public List<string>? ErrorMessage { get; set; }
+        [JsonIgnore]
         public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
+        [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
 
         public static ServiceResult Success(HttpStatusCode statusCode = HttpStatusCode.OK) {
