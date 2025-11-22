@@ -9,6 +9,8 @@ namespace App.Services {
         public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
         [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
+        [JsonIgnore]
+        public string? UrlAsCreated { get; set; }
 
         public static ServiceResult<T> Success(HttpStatusCode statusCode = HttpStatusCode.OK) {
             return new ServiceResult<T> {
@@ -20,6 +22,14 @@ namespace App.Services {
             return new ServiceResult<T> {
                 Data = data,
                 StatusCode = statusCode
+            };
+        }
+
+        public static ServiceResult<T> SuccessAsCreated(T data, string urlAsCreated) {
+            return new ServiceResult<T> {
+                Data = data,
+                StatusCode = HttpStatusCode.Created,
+                UrlAsCreated = urlAsCreated
             };
         }
 

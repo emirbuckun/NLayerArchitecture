@@ -42,14 +42,14 @@ namespace App.Services.Products {
         }
 
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request) {
-            var newProduct = new Product { Name = request.Name, Price = request.Price, Stock = request.Stock };
+            var product = new Product { Name = request.Name, Price = request.Price, Stock = request.Stock };
 
-            await productRepository.AddAsync(newProduct);
+            await productRepository.AddAsync(product);
             await unitOfWork.SaveChangesAsync();
 
-            var response = new CreateProductResponse(newProduct.Id.ToString());
+            var response = new CreateProductResponse(product.Id.ToString());
 
-            return ServiceResult<CreateProductResponse>.Success(response, HttpStatusCode.Created);
+            return ServiceResult<CreateProductResponse>.SuccessAsCreated(response, $"/api/products/{product.Id}");
         }
 
         public async Task<ServiceResult> UpdateAsync(UpdateProductRequest request) {

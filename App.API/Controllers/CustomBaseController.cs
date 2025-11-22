@@ -8,11 +8,11 @@ namespace App.API.Controllers {
     public class CustomBaseController : ControllerBase {
         [NonAction]
         public IActionResult CreateActionResult<T>(ServiceResult<T> result) {
-            if (result.StatusCode == HttpStatusCode.NoContent) {
-                return StatusCode((int)result.StatusCode, null);
-            }
-
-            return StatusCode((int)result.StatusCode, result);
+            return result.StatusCode switch {
+                HttpStatusCode.NoContent => NoContent(),
+                HttpStatusCode.Created => Created(result.UrlAsCreated, result),
+                _ => StatusCode((int)result.StatusCode, result)
+            };
         }
 
         [NonAction]
