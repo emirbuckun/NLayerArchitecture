@@ -13,11 +13,20 @@ namespace App.Services.Products {
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
 
-        public async Task<ServiceResult<List<ProductResponse>>> GetAllList() {
+        public async Task<ServiceResult<List<ProductResponse>>> GetAllListAsync() {
             var products = await productRepository.GetAll().ToListAsync();
 
             var productResponse = products.Select(p => new ProductResponse(p.Id, p.Name, p.Price, p.Stock)).ToList();
 
+            return ServiceResult<List<ProductResponse>>.Success(productResponse);
+        }
+
+        public async Task<ServiceResult<List<ProductResponse>>> GetPagedAllListAsync(int page, int pageSize) {
+            var products = await productRepository.GetAll()
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            var productResponse = products.Select(p => new ProductResponse(p.Id, p.Name, p.Price, p.Stock)).ToList();
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
 

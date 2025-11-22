@@ -9,7 +9,11 @@ namespace App.API.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> GetAllProducts() =>
-            CreateActionResult(await productService.GetAllList());
+            CreateActionResult(await productService.GetAllListAsync());
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedAllProducts(int page, int pageSize) =>
+            CreateActionResult(await productService.GetPagedAllListAsync(page, pageSize));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id) =>
