@@ -27,6 +27,10 @@ namespace App.API.Controllers {
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductRequest request) =>
             CreateActionResult(await productService.UpdateAsync(request));
 
+        [HttpPatch("stock")]
+        public async Task<IActionResult> UpdateProductStock([FromBody] UpdateProductStockRequest request) =>
+            CreateActionResult(await productService.UpdateStockAsync(request));
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id) =>
             CreateActionResult(await productService.DeleteAsync(id));

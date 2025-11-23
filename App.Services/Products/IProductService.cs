@@ -6,6 +6,7 @@ namespace App.Services.Products {
         public Task<ServiceResult<ProductResponse?>> GetByIdAsync(int productId);
         public Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request);
         public Task<ServiceResult> UpdateAsync(UpdateProductRequest request);
+        public Task<ServiceResult> UpdateStockAsync(UpdateProductStockRequest request);
         public Task<ServiceResult> DeleteAsync(int productId);
     }
 }
