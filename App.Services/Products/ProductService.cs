@@ -42,6 +42,11 @@ namespace App.Services.Products {
         }
 
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request) {
+            var anyProductWithSameName = await productRepository.Where(p => p.Name == request.Name).AnyAsync();
+            if (anyProductWithSameName) {
+                return ServiceResult<CreateProductResponse>.Fail("A product with the same name already exists.");
+            }
+
             var product = new Product { Name = request.Name, Price = request.Price, Stock = request.Stock };
 
             await productRepository.AddAsync(product);
