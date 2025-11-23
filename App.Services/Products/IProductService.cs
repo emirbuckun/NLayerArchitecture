@@ -1,3 +1,6 @@
+using App.Services.Products.Create;
+using App.Services.Products.Update;
+
 namespace App.Services.Products {
     public interface IProductService {
         public Task<ServiceResult<List<ProductResponse>>> GetTopPriceProductsAsync(int count);

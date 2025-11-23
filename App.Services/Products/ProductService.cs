@@ -1,6 +1,8 @@
 using System.Net;
 using App.Repositories;
 using App.Repositories.Products;
+using App.Services.Products.Create;
+using App.Services.Products.Update;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Services.Products {
