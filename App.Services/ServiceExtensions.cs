@@ -1,4 +1,5 @@
 using System.Reflection;
+using App.Services.ExceptionHandlers;
 using App.Services.Products;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -11,6 +12,8 @@ namespace App.Services {
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddExceptionHandler<CriticalExceptionHandler>();
+            services.AddExceptionHandler<GlobalExceptionHandler>();
             return services;
         }
     }
