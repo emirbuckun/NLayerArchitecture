@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.API.Controllers {
     public class ProductsController(IProductService productService) : CustomBaseController {
-        [HttpGet("top-price/{count}")]
+        [HttpGet("top-price/{count:int}")]
         public async Task<IActionResult> GetTopPriceProducts(int count) =>
             CreateActionResult(await productService.GetTopPriceProductsAsync(count));
 
@@ -11,11 +11,11 @@ namespace App.API.Controllers {
         public async Task<IActionResult> GetAllProducts() =>
             CreateActionResult(await productService.GetAllListAsync());
 
-        [HttpGet("paged")]
+        [HttpGet("{page:int}/{pageSize:int}")]
         public async Task<IActionResult> GetPagedAllProducts(int page, int pageSize) =>
             CreateActionResult(await productService.GetPagedAllListAsync(page, pageSize));
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProductById(int id) =>
             CreateActionResult(await productService.GetByIdAsync(id));
 
@@ -31,7 +31,7 @@ namespace App.API.Controllers {
         public async Task<IActionResult> UpdateProductStock([FromBody] UpdateProductStockRequest request) =>
             CreateActionResult(await productService.UpdateStockAsync(request));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id) =>
             CreateActionResult(await productService.DeleteAsync(id));
     }
