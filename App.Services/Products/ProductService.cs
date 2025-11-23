@@ -3,10 +3,11 @@ using App.Repositories;
 using App.Repositories.Products;
 using App.Services.Products.Create;
 using App.Services.Products.Update;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Services.Products {
-    public class ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) : IProductService {
+    public class ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork) : IProductService {
         public async Task<ServiceResult<List<ProductResponse>>> GetTopPriceProductsAsync(int count) {
             var products = await productRepository.GetTopPriceProductsAsync(count);
 
@@ -18,7 +19,7 @@ namespace App.Services.Products {
         public async Task<ServiceResult<List<ProductResponse>>> GetAllListAsync() {
             var products = await productRepository.GetAll().ToListAsync();
 
-            var productResponse = products.Select(p => new ProductResponse(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            var productResponse = mapper.Map<List<ProductResponse>>(products);
 
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
@@ -28,7 +29,9 @@ namespace App.Services.Products {
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-            var productResponse = products.Select(p => new ProductResponse(p.Id, p.Name, p.Price, p.Stock)).ToList();
+
+            var productResponse = mapper.Map<List<ProductResponse>>(products);
+
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
 
@@ -38,7 +41,7 @@ namespace App.Services.Products {
                 return ServiceResult<ProductResponse?>.Fail("Product not found", HttpStatusCode.NotFound)!;
             }
 
-            var productResponse = new ProductResponse(product.Id, product.Name, product.Price, product.Stock);
+            var productResponse = mapper.Map<ProductResponse>(product);
 
             return ServiceResult<ProductResponse?>.Success(productResponse);
         }
