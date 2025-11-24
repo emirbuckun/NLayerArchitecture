@@ -7,7 +7,7 @@ namespace App.Repositories.Categories {
         public Task<Category?> GetCategoryWithProductsAsync(int categoryId) =>
             _context.Categories.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
 
-        public IQueryable<Category>? GetCategoryWithProductsAsync() =>
+        public IQueryable<Category> GetCategoryWithProducts() =>
             _context.Categories.Include(c => c.Products).AsQueryable();
     }
 }

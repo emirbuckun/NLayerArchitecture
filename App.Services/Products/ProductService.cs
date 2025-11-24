@@ -58,7 +58,7 @@ namespace App.Services.Products {
             await productRepository.AddAsync(product);
             await unitOfWork.SaveChangesAsync();
 
-            var response = new CreateProductResponse(product.Id.ToString());
+            var response = new CreateProductResponse(product.Id);
 
             return ServiceResult<CreateProductResponse>.SuccessAsCreated(response, $"/api/products/{product.Id}");
         }

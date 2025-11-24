@@ -1,3 +1,3 @@
 namespace App.Services.Products.Create {
-    public record CreateProductResponse(string Id);
+    public record CreateProductResponse(int Id);
 }
