@@ -12,7 +12,7 @@ namespace App.Services.Products {
         public async Task<ServiceResult<List<ProductResponse>>> GetTopPriceProductsAsync(int count) {
             var products = await productRepository.GetTopPriceProductsAsync(count);
 
-            var productResponse = products.Select(p => new ProductResponse(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            var productResponse = mapper.Map<List<ProductResponse>>(products);
 
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
@@ -53,7 +53,7 @@ namespace App.Services.Products {
                 return ServiceResult<CreateProductResponse>.Fail("A product with the same name already exists.");
             }
 
-            var product = new Product { Name = request.Name, Price = request.Price, Stock = request.Stock };
+            var product = mapper.Map<Product>(request);
 
             await productRepository.AddAsync(product);
             await unitOfWork.SaveChangesAsync();
@@ -74,9 +74,7 @@ namespace App.Services.Products {
                 return ServiceResult.Fail("A product with the same name already exists.");
             }
 
-            product.Name = request.Name;
-            product.Price = request.Price;
-            product.Stock = request.Stock;
+            product = mapper.Map(request, product);
 
             productRepository.Update(product);
             await unitOfWork.SaveChangesAsync();
