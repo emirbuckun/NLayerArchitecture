@@ -3,6 +3,7 @@ using App.Repositories;
 using App.Repositories.Products;
 using App.Services.Products.Create;
 using App.Services.Products.Update;
+using App.Services.Products.UpdateStock;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,8 +48,8 @@ namespace App.Services.Products {
         }
 
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request) {
-            var anyProductWithSameName = await productRepository.Where(p => p.Name == request.Name).AnyAsync();
-            if (anyProductWithSameName) {
+            var isProductNmaeExist = await productRepository.Where(p => p.Name == request.Name).AnyAsync();
+            if (isProductNmaeExist) {
                 return ServiceResult<CreateProductResponse>.Fail("A product with the same name already exists.");
             }
 
@@ -66,6 +67,11 @@ namespace App.Services.Products {
             var product = await productRepository.GetByIdAsync((request.Id));
             if (product is null) {
                 return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
+            }
+
+            var isProductNmaeExist = await productRepository.Where(p => p.Name == request.Name && p.Id != request.Id).AnyAsync();
+            if (isProductNmaeExist) {
+                return ServiceResult.Fail("A product with the same name already exists.");
             }
 
             product.Name = request.Name;
