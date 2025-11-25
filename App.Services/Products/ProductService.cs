@@ -64,31 +64,25 @@ namespace App.Services.Products {
         }
 
         public async Task<ServiceResult> UpdateAsync(UpdateProductRequest request) {
-            var product = await productRepository.GetByIdAsync((request.Id));
-            if (product is null) {
-                return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
-            }
-
-            var isProductNmaeExist = await productRepository.Where(p => p.Name == request.Name && p.Id != request.Id).AnyAsync();
-            if (isProductNmaeExist) {
+            var isProductNameExist = await productRepository.Where(p => p.Name == request.Name && p.Id != request.Id).AnyAsync();
+            if (isProductNameExist) {
                 return ServiceResult.Fail("A product with the same name already exists.");
             }
 
+            var product = await productRepository.GetByIdAsync((request.Id));
+
             product = mapper.Map(request, product);
 
-            productRepository.Update(product);
+            productRepository.Update(product!);
             await unitOfWork.SaveChangesAsync();
 
             return ServiceResult.Success(HttpStatusCode.NoContent);
         }
 
         public async Task<ServiceResult> UpdateStockAsync(UpdateProductStockRequest request) {
-            var product = await productRepository.GetByIdAsync(request.ProductId);
-            if (product is null) {
-                return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
-            }
+            var product = await productRepository.GetByIdAsync(request.Id);
 
-            product.Stock = request.NewStock;
+            product!.Stock = request.Stock;
 
             productRepository.Update(product);
             await unitOfWork.SaveChangesAsync();
@@ -98,11 +92,8 @@ namespace App.Services.Products {
 
         public async Task<ServiceResult> DeleteAsync(int productId) {
             var product = await productRepository.GetByIdAsync(productId);
-            if (product is null) {
-                return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
-            }
 
-            productRepository.Delete(product);
+            productRepository.Delete(product!);
             await unitOfWork.SaveChangesAsync();
 
             return ServiceResult.Success(HttpStatusCode.NoContent);
