@@ -1,6 +1,127 @@
-@App.API_HostAddress = http://localhost:5264
+@App.API_HostAddress = http://localhost:5000
 
-GET {{App.API_HostAddress}}/weatherforecast/
+###
+
+### Products - Get top priced products
+GET {{App.API_HostAddress}}/api/products/top-price/5
+Accept: application/json
+
+###
+
+### Products - Get all products
+GET {{App.API_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+### Products - Get paged products (page, pageSize)
+GET {{App.API_HostAddress}}/api/products/1/10
+Accept: application/json
+
+###
+
+### Products - Get product by id
+GET {{App.API_HostAddress}}/api/products/1
+Accept: application/json
+
+###
+
+### Products - Create product
+POST {{App.API_HostAddress}}/api/products
+Accept: application/json
+Content-Type: application/json
+
+{
+	"name": "New product",
+	"price": 19.99,
+	"stock": 50,
+	"categoryId": 1
+}
+
+###
+
+### Products - Update product
+PUT {{App.API_HostAddress}}/api/products
+Accept: application/json
+Content-Type: application/json
+
+{
+	"id": 1,
+	"name": "Updated product",
+	"price": 24.99,
+	"stock": 40,
+	"categoryId": 1
+}
+
+###
+
+### Products - Update product stock (PATCH)
+PATCH {{App.API_HostAddress}}/api/products/stock
+Accept: application/json
+Content-Type: application/json
+
+{
+	"productId": 1,
+	"stock": 75
+}
+
+###
+
+### Products - Delete product
+DELETE {{App.API_HostAddress}}/api/products/1
+Accept: application/json
+
+###
+
+### Categories - Get category with products by id
+GET {{App.API_HostAddress}}/api/categories/with-products/1
+Accept: application/json
+
+###
+
+### Categories - Get all categories with products
+GET {{App.API_HostAddress}}/api/categories/with-products
+Accept: application/json
+
+###
+
+### Categories - Get all categories
+GET {{App.API_HostAddress}}/api/categories
+Accept: application/json
+
+###
+
+### Categories - Get category by id
+GET {{App.API_HostAddress}}/api/categories/1
+Accept: application/json
+
+###
+
+### Categories - Create category
+POST {{App.API_HostAddress}}/api/categories
+Accept: application/json
+Content-Type: application/json
+
+{
+	"name": "New Category"
+}
+
+###
+
+### Categories - Update category
+PUT {{App.API_HostAddress}}/api/categories
+Accept: application/json
+Content-Type: application/json
+
+{
+	"id": 1,
+	"name": "Updated Category"
+}
+
+###
+
+### Categories - Delete category
+DELETE {{App.API_HostAddress}}/api/categories/1
 Accept: application/json
 
 ###
