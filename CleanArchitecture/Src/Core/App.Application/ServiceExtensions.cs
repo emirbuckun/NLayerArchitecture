@@ -1,8 +1,6 @@
 using System.Reflection;
-using App.Application.ExceptionHandlers;
 using App.Application.Features.Categories;
 using App.Application.Features.Products;
-using App.Application.Filters;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +10,15 @@ namespace App.Application {
         public static IServiceCollection AddServices(this IServiceCollection services) {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped(typeof(NotFoundFilter<,>));
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddExceptionHandler<CriticalExceptionHandler>();
-            services.AddExceptionHandler<GlobalExceptionHandler>();
+
+            // TODO: Move to API layer
+            // services.AddScoped(typeof(NotFoundFilter<,>));
+            // services.AddExceptionHandler<CriticalExceptionHandler>();
+            // services.AddExceptionHandler<GlobalExceptionHandler>();
+
             return services;
         }
     }
