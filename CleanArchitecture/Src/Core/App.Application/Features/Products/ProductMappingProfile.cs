@@ -1,14 +1,12 @@
-using App.Repositories.Products;
-using App.Services.Products.Create;
-using App.Services.Products.Update;
+using App.Application.Features.Products.Create;
+using App.Application.Features.Products.Response;
+using App.Application.Features.Products.Update;
+using App.Domain.Entities;
 using AutoMapper;
 
-namespace App.Services.Products
-{
-    public class ProductMappingProfile : Profile
-    {
-        public ProductMappingProfile()
-        {
+namespace App.Application.Features.Products {
+    public class ProductMappingProfile : Profile {
+        public ProductMappingProfile() {
             CreateMap<ProductResponse, Product>().ReverseMap();
             CreateMap<CreateProductRequest, Product>().ForMember(dest => dest.Name,
                 opt => opt.MapFrom(src => src.Name.ToLowerInvariant()));
