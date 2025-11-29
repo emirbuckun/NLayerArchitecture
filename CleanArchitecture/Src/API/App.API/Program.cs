@@ -1,10 +1,10 @@
 using App.API.Extensions;
 using App.Application;
 using App.Persistence.Extensions;
+using App.ServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllerExtensions();
 
 builder.Services.AddSwaggerExtensions();
@@ -12,6 +12,8 @@ builder.Services.AddSwaggerExtensions();
 builder.Services.AddExceptionHandlerExtensions();
 
 builder.Services.AddCachingExtensions();
+
+builder.Services.AddServiceBusExtensions(builder.Configuration);
 
 builder.Services.AddRepositories().AddServices();
 
