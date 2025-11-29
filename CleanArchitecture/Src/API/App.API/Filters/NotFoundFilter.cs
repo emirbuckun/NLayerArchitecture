@@ -1,10 +1,11 @@
 using System.Net;
+using App.Application;
 using App.Application.Contracts.Persistence;
 using App.Domain.Entities.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace App.Application.Filters {
+namespace App.API.Filters {
     public class NotFoundFilter<T, TId>(IGenericRepository<T, TId> genericRepository) : Attribute, IAsyncActionFilter
         where T : BaseEntity<TId> where TId : struct {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) {

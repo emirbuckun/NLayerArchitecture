@@ -1,8 +1,7 @@
 using App.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 
-namespace App.Application.ExceptionHandlers {
+namespace App.API.ExceptionHandlers {
     public class CriticalExceptionHandler : IExceptionHandler {
         public ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) {
             if (exception is CriticalException) {

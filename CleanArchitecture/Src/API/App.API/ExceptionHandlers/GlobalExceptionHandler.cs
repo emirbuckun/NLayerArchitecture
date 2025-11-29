@@ -1,8 +1,8 @@
 using System.Net;
+using App.Application;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 
-namespace App.Application.ExceptionHandlers {
+namespace App.API.ExceptionHandlers {
     public class GlobalExceptionHandler : IExceptionHandler {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) {
             var error = ServiceResult.Fail(exception.Message, HttpStatusCode.InternalServerError);

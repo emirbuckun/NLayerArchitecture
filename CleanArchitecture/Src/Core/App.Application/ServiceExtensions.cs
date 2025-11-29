@@ -13,12 +13,6 @@ namespace App.Application {
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            // TODO: Move to API layer
-            // services.AddScoped(typeof(NotFoundFilter<,>));
-            // services.AddExceptionHandler<CriticalExceptionHandler>();
-            // services.AddExceptionHandler<GlobalExceptionHandler>();
-
             return services;
         }
     }
