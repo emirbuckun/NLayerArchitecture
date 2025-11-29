@@ -1,4 +1,5 @@
 using System.Net;
+using App.Application.Contracts.Caching;
 using App.Application.Contracts.Persistence;
 using App.Application.Features.Products.Create;
 using App.Application.Features.Products.Response;
@@ -8,7 +9,9 @@ using App.Domain.Entities;
 using AutoMapper;
 
 namespace App.Application.Features.Products {
-    public class ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork) : IProductService {
+    public class ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork, ICacheService cacheService) : IProductService {
+        private const string CacheKeyAllProducts = "all_products";
+
         public async Task<ServiceResult<List<ProductResponse>>> GetTopPriceProductsAsync(int count) {
             var products = await productRepository.GetTopPriceProductsAsync(count);
 
@@ -26,9 +29,16 @@ namespace App.Application.Features.Products {
         }
 
         public async Task<ServiceResult<List<ProductResponse>>> GetPagedAllListAsync(int page, int pageSize) {
+            // cache aside design pattern
+            var cachedProducts = await cacheService.GetAsync<List<ProductResponse>>(CacheKeyAllProducts);
+            if (cachedProducts is not null) {
+                return ServiceResult<List<ProductResponse>>.Success(cachedProducts);
+            }
+
             var products = await productRepository.GetAllPagedAsync(page, pageSize);
 
             var productResponse = mapper.Map<List<ProductResponse>>(products);
+            await cacheService.SetAsync(CacheKeyAllProducts, productResponse, TimeSpan.FromMinutes(5));
 
             return ServiceResult<List<ProductResponse>>.Success(productResponse);
         }
